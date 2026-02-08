@@ -3,96 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <style>
-        body { font-family: sans-serif; padding: 20px; text-align: center; color: #333; }
-        .step { display: none; animation: fadeIn 0.5s; }
+        body { font-family: sans-serif; padding: 10px; text-align: center; color: #333; line-height: 1.4; }
+        .wizard-container { max-width: 900px; margin: 0 auto; }
+        .step { display: none; animation: fadeIn 0.4s; }
         .active { display: block; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-        .card { border: 1px solid #ddd; border-radius: 12px; padding: 15px; cursor: pointer; transition: 0.3s; }
-        .card:hover { border-color: #a34e98; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .btn { background: #a34e98; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 15px; }
-        .img-hint { max-width: 250px; border-radius: 8px; margin: 10px 0; }
-        input[type="text"], input[type="email"] { width: 80%; max-width: 300px; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
+        
+        /* Kisebb, átláthatóbb kártyák rácsa */
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
+            gap: 15px; 
+            margin-top: 20px; 
+        }
+        
+        .card { 
+            border: 1px solid #ddd; 
+            border-radius: 10px; 
+            padding: 10px; 
+            cursor: pointer; 
+            transition: 0.2s; 
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card:hover { border-color: #a34e98; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        
+        /* Fixált kép méret, hogy ne legyen óriási */
+        .kazi-img { 
+            width: 100%; 
+            height: 80px; 
+            object-fit: contain; 
+            margin-bottom: 5px; 
+        }
+        
+        .btn { background: #a34e98; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 10px; font-size: 0.9em; width: 100%; }
+        .btn-green { background: #28a745; width: auto; padding: 12px 30px; font-size: 1.1em; }
+        
+        .input-field { width: 90%; max-width: 300px; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 5px; }
+        .hint-box { background: #f9f9f9; padding: 15px; border-radius: 10px; text-align: left; margin: 20px auto; max-width: 600px; border-left: 5px solid #a34e98; }
+        
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
+<div class="wizard-container">
     <div id="step1" class="step active">
-        <h2>Válaszd ki a kazettád típusát!</h2>
+        <h2 style="color:#a34e98;">Milyen kazettád van?</h2>
         <div class="grid">
             <div class="card" onclick="nextStep(2, 'VHS', 3)">
-                <img src="https://www.emlekmento.com/shop_ordered/2443/shop_alt_pic/video_tipusok3.png" style="width:100%">
-                <strong>VHS</strong><br>
-                <button class="btn">Nézzük mennyi műsoridő van rajta?</button>
+                <img src="https://www.emlekmento.com/shop_ordered/2443/shop_alt_pic/video_tipusok3.png" class="kazi-img">
+                <strong>VHS</strong>
+                <button class="btn">Nézzük az időt!</button>
             </div>
+            <div class="card" onclick="nextStep(2, 'VHS-C', 0.75)">
+                <img src="https://www.emlekmento.com/shop_ordered/2443/shop_alt_pic/video_tipusok3.png" class="kazi-img">
+                <strong>VHS-C</strong>
+                <button class="btn">Nézzük az időt!</button>
             </div>
+            <div class="card" onclick="nextStep(2, 'Hi8 / Video8', 1.5)">
+                <img src="https://www.emlekmento.com/shop_ordered/2443/shop_alt_pic/video_tipusok3.png" class="kazi-img">
+                <strong>Hi8 / Video8</strong>
+                <button class="btn">Nézzük az időt!</button>
+            </div>
+            <div class="card" onclick="nextStep(2, 'miniDV', 1)">
+                <img src="https://www.emlekmento.com/shop_ordered/2443/shop_alt_pic/video_tipusok3.png" class="kazi-img">
+                <strong>miniDV</strong>
+                <button class="btn">Nézzük az időt!</button>
+            </div>
+            <div class="card" onclick="nextStep(2, 'Betamax', 2)">
+                <img src="https://www.emlekmento.com/shop_ordered/2443/shop_alt_pic/video_tipusok4.png" class="kazi-img">
+                <strong>Betamax</strong>
+                <button class="btn">Nézzük az időt!</button>
+            </div>
+             <div class="card" onclick="nextStep(2, 'Digital Beta', 1.5)">
+                <img src="https://www.emlekmento.com/shop_ordered/2443/shop_alt_pic/video_tipusok4.png" class="kazi-img">
+                <strong>Digital Beta</strong>
+                <button class="btn">Nézzük az időt!</button>
+            </div>
+        </div>
     </div>
 
     <div id="step2" class="step">
-        <h2 style="color:#a34e98;">Szuper! Már csak egy apróság...</h2>
-        <p>Add meg a neved és az email címed, és a számítás után <strong>elküldjük neked a digitalizálási költség kalkulátorunkat is</strong>, hogy pontosan tervezhess!</p>
+        <h2 style="color:#a34e98;">Kalkulátor megnyitása</h2>
+        <p>A(z) <strong id="display-type"></strong> kazettákhoz tartozó elemzéshez add meg az adataidat.</p>
+        <p><strong>Bónusz:</strong> A beküldés után elküldjük a 2026-os digitalizálási árkalkulátorunkat is!</p>
+        
         <form id="lmForm" action="https://listamester.hu/restApi/srv/processSubscription" method="POST" target="hidden_iframe">
             <input type="hidden" name="LM_GroupID" value="114321">
             <input type="hidden" name="LM_FormID" value="21677">
             <input type="hidden" name="LM_Answer292872" id="hidKaziType">
             
-            <input type="text" name="LM_Name114321" placeholder="Keresztnév" required><br>
-            <input type="email" name="LM_Email114321" placeholder="Email címed" required><br>
+            <input type="text" name="LM_Name114321" class="input-field" placeholder="Keresztnév" required><br>
+            <input type="email" name="LM_Email114321" class="input-field" placeholder="Email címed" required><br>
             
-            <button type="submit" class="btn" onclick="setTimeout(() => nextStep(3), 500)">MEGNYITOM A KALKULÁTORT</button>
+            <button type="submit" class="btn btn-green" onclick="submitAndNext()">MEGNYITOM A KALKULÁTORT</button>
         </form>
         <iframe name="hidden_iframe" style="display:none;"></iframe>
     </div>
 
     <div id="step3" class="step">
-        <h2>Milyen hosszú lehet a felvétel?</h2>
-        <div style="max-width:600px; margin:0 auto; text-align:left;">
-            <p><strong>1. Nézd meg a kazetta gerincét!</strong></p>
-            <img src="IDE_JÖN_A_GERINC_FOTÓ_LINK" class="img-hint" alt="Kazetta gerinc segédlet">
-            <p>A legtöbb kazettába bele van ütve a névleges hossz (pl. E-180 = 3 óra, E-240 = 4 óra).</p>
-            
-            <p><strong>2. Szalagvastagság alapú becslés</strong></p>
-            <img src="IDE_JÖN_A_SZALAG_FOTÓ_LINK" class="img-hint" alt="Szalagvastagság segédlet">
+        <h2 style="color:#a34e98;">Hány óra anyag lehet rajta?</h2>
+        
+        <div class="hint-box">
+            <p><strong>1. Keresd a gyári feliratot a gerincen:</strong></p>
+            <p>VHS esetén pl. E-180 (3 óra), E-240 (4 óra). Hi8-nál általában 60 vagy 90 perc.</p>
+            <p><strong>2. Becslés szalagvastagság alapján:</strong></p>
+            <p>Ha az egyik orsón látod a szalagot:</p>
             <ul>
-                <li>Ha az orsón kb. 1 cm szalag van: 20-30 perc</li>
-                <li>Ha az orsón kb. 2 cm szalag van: kb. 1 óra</li>
-                <li>Ha teljesen tele van: 3-4 óra</li>
+                <li>Kb. 0.5 cm szalagvastagság: ~15-20 perc</li>
+                <li>Kb. 1.5 cm szalagvastagság: ~1-1.5 óra</li>
+                <li>Teljesen teli orsó: ~3-4 óra (VHS esetén)</li>
             </ul>
         </div>
-        <button class="btn" onclick="nextStep(4)">Tovább az állapotfelmérésre</button>
+
+        <div style="background:#fff; padding:20px; border-radius:15px; border:1px solid #ddd; max-width:400px; margin:0 auto;">
+            <label>Hány darab ilyen kazettád van?</label><br>
+            <input type="number" id="qty" value="1" min="1" oninput="calculate()" style="width:60px; padding:10px; font-size:1.2em; text-align:center;">
+            <p style="font-size:1.4em; margin-top:15px;">Becsült összes idő: <strong id="result" style="color:#a34e98;">0</strong> óra</p>
+        </div>
+        
+        <button class="btn" onclick="nextStep(4)" style="max-width:300px;">Tovább az állapotfelmérésre</button>
     </div>
 
     <div id="step4" class="step">
-        <h2>Milyen állapotban van a szalag?</h2>
-        <p>Jelöld be, amit tapasztalsz (többet is ér):</p>
-        <div style="text-align:left; max-width:400px; margin:0 auto; line-height:2;">
-            <label><input type="checkbox" class="cond"> Penészes (fehér foltok)</label><br>
-            <label><input type="checkbox" class="cond"> Ragadós / Dohos szagú</label><br>
-            <label><input type="checkbox" class="cond"> Szakadt szalag</label><br>
-            <label><input type="checkbox" class="cond"> Sérült kazetta tok</label>
+        <h2 style="color:#a34e98;">Milyen állapotban vannak?</h2>
+        <div class="hint-box">
+            <p>Válaszd ki, ha az alábbiakat látod a kazettán:</p>
+            <label style="display:block; margin:10px 0;"><input type="checkbox"> Penész (apró fehér pöttyök a szalag szélén)</label>
+            <label style="display:block; margin:10px 0;"><input type="checkbox"> Szakadt vagy gyűrött szalag</label>
+            <label style="display:block; margin:10px 0;"><input type="checkbox"> Dohos, nedves szag</label>
+            <label style="display:block; margin:10px 0;"><input type="checkbox"> Megrongálódott műanyag tok</label>
         </div>
-        <button class="btn" onclick="showResult()">Diagnózis kérése</button>
         
-        <div id="diagnosis" style="margin-top:20px; display:none; padding:15px; background:#e8f5e9; border-radius:10px;">
-            <h3>✅ Menthető!</h3>
-            <p>Bármit is jelöltél be, a jó hírünk: <strong>szinte minden kazetta menthető</strong> profi tisztítással és javítással. Az adataidat megkaptuk, hamarosan keressük a részletekkel!</p>
+        <div style="background:#e8f5e9; padding:20px; border-radius:12px; border:1px solid #28a745;">
+            <h3>✅ Diagnózis: Menthető!</h3>
+            <p>A jó hírünk, hogy technológiánkkal szinte minden fenti hiba javítható és a felvétel digitalizálható. Hamarosan küldjük az emailt a további teendőkkel!</p>
         </div>
+        
+        <button class="btn" onclick="location.reload()" style="background:#666; max-width:200px;">Vissza az elejére</button>
     </div>
+</div>
 
-    <script>
-        let selectedKazi = "";
-        function nextStep(n, name) {
-            if(name) {
-                selectedKazi = name;
-                document.getElementById('hidKaziType').value = name;
-            }
-            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-            document.getElementById('step' + n).classList.add('active');
-            window.scrollTo(0,0);
+<script>
+    let currentKazi = "";
+    let baseHours = 0;
+
+    function nextStep(n, name, hours) {
+        if(name) {
+            currentKazi = name;
+            baseHours = hours;
+            document.getElementById('display-type').innerText = name;
+            document.getElementById('hidKaziType').value = name;
         }
-        function showResult() {
-            document.getElementById('diagnosis').style.display = 'block';
-        }
-    </script>
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+        document.getElementById('step' + n).classList.add('active');
+        window.scrollTo(0,0);
+        if(n === 3) calculate();
+    }
+
+    function calculate() {
+        let q = document.getElementById('qty').value || 1;
+        document.getElementById('result').innerText = (q * baseHours).toFixed(1);
+    }
+
+    function submitAndNext() {
+        // Kis késleltetés, hogy a form elinduljon a háttérben
+        setTimeout(() => {
+            nextStep(3);
+        }, 800);
+    }
+</script>
 </body>
 </html>
